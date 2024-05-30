@@ -96,6 +96,20 @@ class RemoteFeedLoaderTests: XCTestCase {
     })
   }
   
+  func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+    let url = URL(string: "http://any-url.com")!
+    let client = HTTPClientSpy()
+    var sut: RemoteFeedLoader? = RemoteFeedLoader(url: url, client: client)
+    
+    var capturedResults = [RemoteFeedLoader.Result]()
+    sut?.load { capturedResults.append($0) }
+    
+    sut = nil
+    client.complete(withStatusCode: 200, data: makeItemsJSON([]))
+    
+    XCTAssertTrue(capturedResults.isEmpty)
+  }
+  
   // MAKR: - Helpers
   
   private func makeSUT(url: URL = URL(string: "http://a-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
@@ -104,6 +118,15 @@ class RemoteFeedLoaderTests: XCTestCase {
     trackForMemoryLeaks(sut, file: file, line: line)
     trackForMemoryLeaks(client, file: file, line: line)
     return (sut, client)
+  }
+  
+  private func expect(_ sut: RemoteFeedLoader, toExpect result: RemoteFeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+    var capturedResults = [RemoteFeedLoader.Result]()
+    sut.load { capturedResults.append($0) }
+    
+    action()
+    
+    XCTAssertEqual(capturedResults, [result], file: file, line: line)
   }
   
   private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
@@ -132,15 +155,6 @@ class RemoteFeedLoaderTests: XCTestCase {
   private func makeItemsJSON(_ items: [[String : Any]]) -> Data {
     let json = ["items": items]
     return try! JSONSerialization.data(withJSONObject: json)
-  }
-  
-  private func expect(_ sut: RemoteFeedLoader, toExpect result: RemoteFeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
-    var capturedResults = [RemoteFeedLoader.Result]()
-    sut.load { capturedResults.append($0) }
-    
-    action()
-    
-    XCTAssertEqual(capturedResults, [result], file: file, line: line)
   }
   
   private class HTTPClientSpy: HTTPClient {
