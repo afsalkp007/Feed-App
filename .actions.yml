@@ -1,6 +1,8 @@
 name: CI
 
 on:
+  push:
+    branches: ["feature/networking"]
   pull_request:
     branches: ["main"]
 
