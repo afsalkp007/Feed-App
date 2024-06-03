@@ -56,6 +56,7 @@
 		F455FDE52C0DB920005C2E2A /* EssentialFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		F455FDED2C0DB964005C2E2A /* EssentialFeedAPIEndToEndTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = EssentialFeedAPIEndToEndTests.xctestplan; sourceTree = "<group>"; };
 		F455FDEF2C0DC302005C2E2A /* CI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
+		F455FDF12C0DD938005C2E2A /* en */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = en; path = en.lproj/README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +89,7 @@
 		F455FD6B2C047DF7005C2E2A = {
 			isa = PBXGroup;
 			children = (
+				F455FDF02C0DD938005C2E2A /* README.md */,
 				F455FDEF2C0DC302005C2E2A /* CI.xctestplan */,
 				F455FD772C047DF7005C2E2A /* EssentialFeed */,
 				F455FD812C047DF8005C2E2A /* EssentialFeedTests */,
@@ -352,6 +354,17 @@
 			targetProxy = F455FDE82C0DB920005C2E2A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F455FDF02C0DD938005C2E2A /* README.md */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F455FDF12C0DD938005C2E2A /* en */,
+			);
+			name = README.md;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F455FD852C047DF8005C2E2A /* Debug */ = {
