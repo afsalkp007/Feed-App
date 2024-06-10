@@ -10,9 +10,14 @@ import EssentialFeed
 
 class FeedStore {
   var deletionCallCount = 0
+  var insertionCallCount = 0
   
   func deleteItems() {
     deletionCallCount += 1
+  }
+  
+  func completeDeletion(with error: Error) {
+    
   }
 }
 
@@ -43,6 +48,17 @@ class FeedCacheUseCaseTests: XCTestCase {
     sut.save(items)
     
     XCTAssertEqual(store.deletionCallCount, 1)
+  }
+  
+  func test_save_doesNotRequestsCacheInsertionOnDeletionError() {
+    let (sut, store) = makeSUT()
+    let items = [uniqueItem()]
+    let error = anyNSError()
+    
+    sut.save(items)
+    store.completeDeletion(with: error)
+    
+    XCTAssertEqual(store.insertionCallCount, 0)
   }
   
   // MARK: - Helpers
