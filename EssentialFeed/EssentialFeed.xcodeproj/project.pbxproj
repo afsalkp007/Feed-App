@@ -19,7 +19,6 @@
 		F455FDD82C0C80D0005C2E2A /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455FDD72C0C80D0005C2E2A /* URLSessionHTTPClient.swift */; };
 		F455FDE62C0DB920005C2E2A /* EssentialFeedAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455FDE52C0DB920005C2E2A /* EssentialFeedAPIEndToEndTests.swift */; };
 		F455FDE72C0DB920005C2E2A /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F455FD752C047DF7005C2E2A /* EssentialFeed.framework */; };
-		F455FDEE2C0DC265005C2E2A /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F455FDD52C0C6F19005C2E2A /* XCTestCase+MemoryLeakTracking.swift */; };
 		F4638C392C170C9D00252601 /* FeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4638C382C170C9D00252601 /* FeedCacheUseCaseTests.swift */; };
 		F4638C3C2C170DF500252601 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4638C3B2C170DF500252601 /* SharedTestHelpers.swift */; };
 /* End PBXBuildFile section */
@@ -155,19 +154,10 @@
 		F455FDCC2C0867AE005C2E2A /* Feed API */ = {
 			isa = PBXGroup;
 			children = (
-				F455FDD42C0C6F04005C2E2A /* Helpers */,
 				F455FD922C04A5AF005C2E2A /* LoadFeedFromRemoteUseCaseTests.swift */,
 				F455FDD02C0B13B8005C2E2A /* URLSessionHTTPClientTests.swift */,
 			);
 			path = "Feed API";
-			sourceTree = "<group>";
-		};
-		F455FDD42C0C6F04005C2E2A /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				F455FDD52C0C6F19005C2E2A /* XCTestCase+MemoryLeakTracking.swift */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		F455FDE42C0DB920005C2E2A /* EssentialFeedAPIEndToEndTests */ = {
@@ -191,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				F4638C3B2C170DF500252601 /* SharedTestHelpers.swift */,
+				F455FDD52C0C6F19005C2E2A /* XCTestCase+MemoryLeakTracking.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -360,7 +351,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F455FDE62C0DB920005C2E2A /* EssentialFeedAPIEndToEndTests.swift in Sources */,
-				F455FDEE2C0DC265005C2E2A /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
