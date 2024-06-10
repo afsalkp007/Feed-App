@@ -11,13 +11,24 @@ import EssentialFeed
 class FeedStore {
   var insertions = [(itms: [FeedItem], timestamp: Date)]()
   
-  var deletionCompletions = [(Error?) -> Void]()
+  typealias DeletionCompletion = (Error?) -> Void
   
-  func deleteCachedFeed(_ completion: @escaping (Error?) -> Void) {
+  enum Message: Equatable {
+    case deleteCache
+    case insert(_ items: [FeedItem], _ timestamp: Date)
+  }
+  
+  var deletionCompletions = [DeletionCompletion]()
+  
+  var receivedMessage = [Message]()
+  
+  func deleteCachedFeed(_ completion: @escaping DeletionCompletion) {
+    receivedMessage.append(.deleteCache)
     deletionCompletions.append(completion)
   }
   
   func insert(_ items: [FeedItem], currentDate: Date) {
+    receivedMessage.append(.insert(items, currentDate))
     insertions.append((items, currentDate))
   }
   
@@ -53,7 +64,7 @@ class FeedCacheUseCaseTests: XCTestCase {
   func test_init_doesNotDeleteCache() {
     let (_, store) = makeSUT()
     
-    XCTAssertEqual(store.deletionCompletions.count, 0)
+    XCTAssertEqual(store.receivedMessage, [])
   }
   
   func test_save_requestsDeletion() {
@@ -62,7 +73,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     
     sut.save(items)
     
-    XCTAssertEqual(store.deletionCompletions.count, 1)
+    XCTAssertEqual(store.receivedMessage, [.deleteCache])
   }
   
   func test_save_doesNotRequestsCacheInsertionOnDeletionError() {
@@ -73,7 +84,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     sut.save(items)
     store.completeDeletion(with: error)
     
-    XCTAssertEqual(store.insertions.count, 0)
+    XCTAssertEqual(store.receivedMessage, [.deleteCache])
   }
   
   func test_save_requestsCacheInsertionWithTimestampOnSuccessfulDeletion() {
@@ -84,7 +95,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     sut.save(items)
     store.completeDeletionSuccessfully()
     
-    XCTAssertEqual(store.insertions.count, 1)
+    XCTAssertEqual(store.receivedMessage, [.deleteCache, .insert(items, timestamp)])
   }
   
   // MARK: - Helpers
