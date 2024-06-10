@@ -46,6 +46,10 @@ class FeedStore {
   func compleInsertion(with error: Error, at index: Int = 0) {
     insertionCompletions[index](error)
   }
+  
+  func compleInsertionSuccessfully(at index: Int = 0) {
+    insertionCompletions[index](nil)
+  }
 }
 
 class LocalFeedLoader {
@@ -126,6 +130,15 @@ class FeedCacheUseCaseTests: XCTestCase {
     })
   }
   
+  func test_save_succeedsOnSuccessfulCacheInsertion() {
+    let (sut, store) = makeSUT()
+    
+    expect(sut, toCompleteWith: nil, when: {
+      store.completeDeletionSuccessfully()
+      store.compleInsertionSuccessfully()
+    })
+  }
+  
   // MARK: - Helpers
   
   private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
@@ -136,19 +149,16 @@ class FeedCacheUseCaseTests: XCTestCase {
     return (sut, store)
   }
   
-  private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedError: NSError, when action: () -> Void) {
+  private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedError: NSError?, when action: () -> Void) {
     let exp = expectation(description: "Wait for save completion")
-    var receivedError: Error?
+    
     sut.save([uniqueItem()]) { error in
-      receivedError = error
+      XCTAssertEqual(error as NSError?, expectedError)
       exp.fulfill()
     }
     
     action()
     wait(for: [exp], timeout: 1.0)
-    
-    XCTAssertEqual(receivedError as NSError?, expectedError)
-
   }
   
   func uniqueItem() -> FeedItem {
