@@ -31,15 +31,13 @@ class LocalFeedLoader {
 class FeedCacheUseCaseTests: XCTestCase {
   
   func test_init_doesNotDeleteCache() {
-    let store = FeedStore()
-    _ = LocalFeedLoader(store: store)
+    let (_, store) = makeSUT()
     
     XCTAssertEqual(store.deletionCallCount, 0)
   }
   
   func test_save_deleteCache() {
-    let store = FeedStore()
-    let sut = LocalFeedLoader(store: store)
+    let (sut, store) = makeSUT()
     let items = [uniqueItem()]
     
     sut.save(items)
@@ -48,6 +46,12 @@ class FeedCacheUseCaseTests: XCTestCase {
   }
   
   // MARK: - Helpers
+  
+  private func makeSUT() -> (sut: LocalFeedLoader, store: FeedStore) {
+    let store = FeedStore()
+    let sut = LocalFeedLoader(store: store)
+    return (sut, store)
+  }
   
   func uniqueItem() -> FeedItem {
     return FeedItem(id: UUID(), description: "any", location: "any", imageURL: anyURL())
