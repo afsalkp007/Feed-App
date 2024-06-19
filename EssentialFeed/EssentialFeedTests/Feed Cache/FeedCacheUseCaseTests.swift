@@ -30,7 +30,10 @@ class LocalFeedLoader {
       guard let self = self else { return }
       
       if error == nil {
-        self.store.insert(items, currentDate: self.currentDate(), completion: completion)
+        self.store.insert(items, currentDate: self.currentDate()) { [weak self] error in
+          guard self != nil else { return }
+          completion(error)
+        }
       } else {
         completion(error)
       }
@@ -92,7 +95,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     
     expect(sut, toCompleteWith: insertionError, when: {
       store.completeDeletionSuccessfully()
-      store.compleInsertion(with: insertionError)
+      store.completeInsertion(with: insertionError)
     })
   }
   
@@ -101,7 +104,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     
     expect(sut, toCompleteWith: nil, when: {
       store.completeDeletionSuccessfully()
-      store.compleInsertionSuccessfully()
+      store.completeInsertionSuccessfully()
     })
   }
   
@@ -114,6 +117,20 @@ class FeedCacheUseCaseTests: XCTestCase {
 
     sut = nil
     store.completeDeletion(with: anyNSError())
+
+    XCTAssertTrue(receivedResults.isEmpty)
+  }
+  
+  func test_save_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
+    let store = FeedStoreSpy()
+    var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
+
+    var receivedResults = [Error?]()
+    sut?.save([uniqueItem()]) { receivedResults.append($0) }
+
+    store.completeDeletionSuccessfully()
+    sut = nil
+    store.completeInsertion(with: anyNSError())
 
     XCTAssertTrue(receivedResults.isEmpty)
   }
@@ -173,11 +190,11 @@ class FeedCacheUseCaseTests: XCTestCase {
       insertionCompletions.append(completion)
     }
     
-    func compleInsertion(with error: Error, at index: Int = 0) {
+    func completeInsertion(with error: Error, at index: Int = 0) {
       insertionCompletions[index](error)
     }
     
-    func compleInsertionSuccessfully(at index: Int = 0) {
+    func completeInsertionSuccessfully(at index: Int = 0) {
       insertionCompletions[index](nil)
     }
   }
