@@ -10,7 +10,7 @@ import EssentialFeed
 
 class FeedStoreSpy: FeedStore {
   enum Message: Equatable {
-    case deleteCache
+    case deleteCacheFeed
     case insert(_ feed: [LocalFeedImage], _ timestamp: Date)
     case retrieve
   }
@@ -22,7 +22,7 @@ class FeedStoreSpy: FeedStore {
   var retrievalCompletions = [RetrievalCompletion]()
   
   func deleteCachedFeed(_ completion: @escaping DeletionCompletion) {
-    receivedMessage.append(.deleteCache)
+    receivedMessage.append(.deleteCacheFeed)
     deletionCompletions.append(completion)
   }
   
