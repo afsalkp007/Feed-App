@@ -19,11 +19,4 @@ public struct LocalFeedImage: Equatable {
     self.location = location
     self.url = url
   }
-  
-  public init(_ image: FeedImage) {
-    self.id = image.id
-    self.description = image.description
-    self.location = image.location
-    self.url = image.url
-  }
 }

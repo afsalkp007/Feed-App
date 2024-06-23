@@ -131,42 +131,4 @@ class FeedCacheUseCaseTests: XCTestCase {
     let local = models.map(\.local)
     return (models, local)
   }
-  
-  private class FeedStoreSpy: FeedStore {
-    enum Message: Equatable {
-      case deleteCache
-      case insert(_ feed: [LocalFeedImage], _ timestamp: Date)
-    }
-
-    var receivedMessage = [Message]()
-
-    var deletionCompletions = [DeletionCompletion]()
-    var insertionCompletions = [InsertionCompletion]()
-    
-    func deleteCachedFeed(_ completion: @escaping DeletionCompletion) {
-      receivedMessage.append(.deleteCache)
-      deletionCompletions.append(completion)
-    }
-    
-    func completeDeletion(with error: Error, at index: Int = 0) {
-      deletionCompletions[index](error)
-    }
-    
-    func completeDeletionSuccessfully(at index: Int = 0) {
-      deletionCompletions[index](nil)
-    }
-    
-    func insert(_ feed: [LocalFeedImage], currentDate: Date, completion: @escaping InsertionCompletion) {
-      receivedMessage.append(.insert(feed, currentDate))
-      insertionCompletions.append(completion)
-    }
-    
-    func completeInsertion(with error: Error, at index: Int = 0) {
-      insertionCompletions[index](error)
-    }
-    
-    func completeInsertionSuccessfully(at index: Int = 0) {
-      insertionCompletions[index](nil)
-    }
-  }
 }
