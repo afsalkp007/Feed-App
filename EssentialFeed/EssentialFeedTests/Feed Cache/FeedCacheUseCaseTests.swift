@@ -121,14 +121,4 @@ class FeedCacheUseCaseTests: XCTestCase {
     action()
     wait(for: [exp], timeout: 1.0)
   }
-  
-  func uniqueImage() -> FeedImage {
-    return FeedImage(id: UUID(), description: "any", location: "any", url: anyURL())
-  }
-  
-  func uniqueImageFeed() -> (models: [FeedImage], local: [LocalFeedImage]) {
-    let models = [uniqueImage()]
-    let local = models.map(\.local)
-    return (models, local)
-  }
 }
