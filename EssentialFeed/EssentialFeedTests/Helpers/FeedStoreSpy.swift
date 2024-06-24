@@ -34,8 +34,8 @@ class FeedStoreSpy: FeedStore {
     deletionCompletions[index](nil)
   }
   
-  func insert(_ feed: [LocalFeedImage], currentDate: Date, completion: @escaping InsertionCompletion) {
-    receivedMessage.append(.insert(feed, currentDate))
+  func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+    receivedMessage.append(.insert(feed, timestamp))
     insertionCompletions.append(completion)
   }
   
