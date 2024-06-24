@@ -41,36 +41,36 @@ class LoadFeedFromCacheFeedUseCaseTests: XCTestCase {
     })
   }
   
-  func test_load_deliversCachedImagesOnLessThanSevenDaysOldCache() {
+  func test_load_deliversCachedImagesOnNonExpiredCache() {
     let feed = uniqueImageFeed()
     let currentDate = Date()
-    let lessThanSevenDaysOldCache = currentDate.adding(days: -7).adding(seconds: 1)
+    let nonExpiredCache = currentDate.minusFeedCacheMaxAge().adding(seconds: 1)
     let (sut, store) = makeSUT(currentDate: { currentDate })
     
     expect(sut, toExpectWith: .success(feed.models), when: {
-      store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldCache)
+      store.completeRetrieval(with: feed.local, timestamp: nonExpiredCache)
     })
   }
   
-  func test_load_deliversNoImagesOnSevenDaysOldCache() {
+  func test_load_deliversNoImagesOnCacheExpiration() {
     let feed = uniqueImageFeed()
     let currentDate = Date()
-    let sevenDaysOldCache = currentDate.adding(days: -7)
+    let expirationTimeStamp = currentDate.minusFeedCacheMaxAge()
     let (sut, store) = makeSUT(currentDate: { currentDate })
     
     expect(sut, toExpectWith: .success([]), when: {
-      store.completeRetrieval(with: feed.local, timestamp: sevenDaysOldCache)
+      store.completeRetrieval(with: feed.local, timestamp: expirationTimeStamp)
     })
   }
   
-  func test_load_deliversNoImagesOnMoreThanSevenDaysOldCache() {
+  func test_load_deliversNoImagesOnExpiredCache() {
     let feed = uniqueImageFeed()
     let currentDate = Date()
-    let moreThanSevenDaysOldCache = currentDate.adding(days: -7).adding(seconds: -1)
+    let expiredCache = currentDate.minusFeedCacheMaxAge().adding(seconds: -1)
     let (sut, store) = makeSUT(currentDate: { currentDate })
     
     expect(sut, toExpectWith: .success([]), when: {
-      store.completeRetrieval(with: feed.local, timestamp: moreThanSevenDaysOldCache)
+      store.completeRetrieval(with: feed.local, timestamp: expiredCache)
     })
   }
   
@@ -92,38 +92,38 @@ class LoadFeedFromCacheFeedUseCaseTests: XCTestCase {
     XCTAssertEqual(store.receivedMessage, [.retrieve])
   }
   
-  func test_load_hasNoSideEffectsOnLessThanSevenDaysOldCache() {
+  func test_load_hasNoSideEffectsOnNonExpiredCache() {
     let feed = uniqueImageFeed()
     let currentDate = Date()
-    let lessThanSevenDaysOldCache = currentDate.adding(days: -7).adding(seconds: 1)
+    let nonExpiredCache = currentDate.minusFeedCacheMaxAge().adding(seconds: 1)
     let (sut, store) = makeSUT(currentDate: { currentDate })
 
     sut.load { _ in }
-    store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldCache)
+    store.completeRetrieval(with: feed.local, timestamp: nonExpiredCache)
     
     XCTAssertEqual(store.receivedMessage, [.retrieve])
   }
   
-  func test_load_hasNoSideEffectsOnSevenDaysOldCache() {
+  func test_load_hasNoSideEffectsOnCacheExpiration() {
     let feed = uniqueImageFeed()
     let currentDate = Date()
-    let sevenDaysOldCache = currentDate.adding(days: -7)
+    let cacheExpirationTimeStamp = currentDate.minusFeedCacheMaxAge()
     let (sut, store) = makeSUT(currentDate: { currentDate })
 
     sut.load { _ in }
-    store.completeRetrieval(with: feed.local, timestamp: sevenDaysOldCache)
+    store.completeRetrieval(with: feed.local, timestamp: cacheExpirationTimeStamp)
     
     XCTAssertEqual(store.receivedMessage, [.retrieve])
   }
   
-  func test_load_hasNoSideEffectsOnMoreThanSevenDaysOldCache() {
+  func test_load_hasNoSideEffectsOExpiredCache() {
     let feed = uniqueImageFeed()
     let currentDate = Date()
-    let moreThanSevenDaysOldCache = currentDate.adding(days: -7).adding(seconds: -1)
+    let expiredCache = currentDate.minusFeedCacheMaxAge().adding(seconds: -1)
     let (sut, store) = makeSUT(currentDate: { currentDate })
 
     sut.load { _ in }
-    store.completeRetrieval(with: feed.local, timestamp: moreThanSevenDaysOldCache)
+    store.completeRetrieval(with: feed.local, timestamp: expiredCache)
     
     XCTAssertEqual(store.receivedMessage, [.retrieve])
   }
