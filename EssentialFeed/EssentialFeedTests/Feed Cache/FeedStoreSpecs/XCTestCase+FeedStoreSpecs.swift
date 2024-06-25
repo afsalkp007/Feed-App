@@ -23,7 +23,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
     
     insert((feed, timestamp), to: sut)
     
-    expect(sut, toRetrieve: .found(feed, timestamp), file: file, line: line)
+    expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp), file: file, line: line)
   }
   
   func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
@@ -32,10 +32,10 @@ extension FeedStoreSpecs where Self: XCTestCase {
     
     insert((feed, timestamp), to: sut)
 
-    expect(sut, toRetrieveTwice: .found(feed, timestamp), file: file, line: line)
+    expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp), file: file, line: line)
   }
   
-  func assertThatInsertDeliversNoErrorNonEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+  func assertThatInsertDeliversNoErrorOnNonEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
     let latestFeed = uniqueImageFeed().local
     let latestTimestamp = Date()
     let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
@@ -49,11 +49,13 @@ extension FeedStoreSpecs where Self: XCTestCase {
   }
   
   func assertThatInsertOverridesPreviouslyInsertedCacheValues(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+    insert((uniqueImageFeed().local, Date()), to: sut)
+    
     let latestFeed = uniqueImageFeed().local
     let latestTimestamp = Date()
     insert((latestFeed, latestTimestamp), to: sut)
 
-    expect(sut, toRetrieve: .found(latestFeed, latestTimestamp), file: file, line: line)
+    expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp), file: file, line: line)
   }
   
   func assertThatDeleteDeliversNoErrorOnEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
