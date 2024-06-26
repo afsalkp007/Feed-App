@@ -1,14 +1,26 @@
 //
-//  CoreDataFeedStoreTests.swift
+//  UserDefaultsFeedStoreTests.swift
 //  EssentialFeedTests
 //
-//  Created by Afsal on 25/06/2024.
+//  Created by Afsal on 26/06/2024.
 //
 
 import XCTest
 import EssentialFeed
 
-class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
+class UserDefaultsFeedStoreTests: XCTestCase, FeedStoreSpecs {
+  override func setUp() {
+    super.setUp()
+    
+    deleteObject()
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+    
+    deleteObject()
+  }
+    
   func test_retrieve_deliversEmptyOnEmptyCache() {
     let sut = makeSUT()
     
@@ -84,10 +96,12 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
   // MARK: - Helpers
   
   private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> FeedStore {
-    let bundle = Bundle(for: CoreDataFeedStore.self)
-    let storeURL = URL(filePath: "/dev/null")
-    let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: bundle)
+    let sut = UserDefaultsFeedStore()
     trackForMemoryLeaks(sut, file: file, line: line)
     return sut
+  }
+  
+  private func deleteObject() {
+    UserDefaults.standard.removeObject(forKey: "Cache")
   }
 }
