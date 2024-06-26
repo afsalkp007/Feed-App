@@ -38,12 +38,7 @@ extension LocalFeedLoader {
     store.insert(feed.toLocal(), timestamp: self.currentDate()) { [weak self] result in
       guard self != nil else { return }
       
-      switch result {
-      case let .failure(error):
-        completion(.failure(error))
-      case .success:
-        completion(.success(()))
-      }
+      completion(result)
     }
   }
 }
