@@ -49,7 +49,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     let (sut, store) = makeSUT()
     let deletionError = anyNSError()
     
-    expect(sut, toCompleteWith: deletionError, when: {
+    expect(sut, toCompleteWith: .failure(deletionError), when: {
       store.completeDeletion(with: deletionError)
     })
   }
@@ -58,7 +58,7 @@ class FeedCacheUseCaseTests: XCTestCase {
     let (sut, store) = makeSUT()
     let insertionError = anyNSError()
     
-    expect(sut, toCompleteWith: insertionError, when: {
+    expect(sut, toCompleteWith: .failure(insertionError), when: {
       store.completeDeletionSuccessfully()
       store.completeInsertion(with: insertionError)
     })
@@ -67,7 +67,7 @@ class FeedCacheUseCaseTests: XCTestCase {
   func test_save_succeedsOnSuccessfulCacheInsertion() {
     let (sut, store) = makeSUT()
     
-    expect(sut, toCompleteWith: nil, when: {
+    expect(sut, toCompleteWith: .success(()), when: {
       store.completeDeletionSuccessfully()
       store.completeInsertionSuccessfully()
     })
@@ -110,11 +110,20 @@ class FeedCacheUseCaseTests: XCTestCase {
     return (sut, store)
   }
   
-  private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedError: NSError?, when action: () -> Void) {
+  private func expect(_ sut: LocalFeedLoader, toCompleteWith expectedResult: LocalFeedLoader.SaveResult, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
     let exp = expectation(description: "Wait for save completion")
     
-    sut.save([uniqueImage()]) { error in
-      XCTAssertEqual(error as NSError?, expectedError)
+    sut.save([uniqueImage()]) { receivedResult in
+      switch (receivedResult, expectedResult) {
+      case let (.failure(receivedError), .failure(expectedError)):
+        XCTAssertEqual(receivedError as NSError?, expectedError as NSError?, file: file, line: line)
+        
+      case (.success, .success):
+        break
+        
+      default:
+        XCTFail("Expected save to succeed, got \(receivedResult) instead.")
+      }
       exp.fulfill()
     }
     
