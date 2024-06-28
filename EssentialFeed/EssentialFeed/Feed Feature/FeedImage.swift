@@ -19,8 +19,4 @@ public struct FeedImage: Equatable {
     self.location = location
     self.url = url
   }
-  
-  public var local: LocalFeedImage {
-    return LocalFeedImage(id: id, description: description, location: location, url: url)
-  }
 }
