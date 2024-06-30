@@ -9,84 +9,44 @@ import UIKit
 import EssentialFeed
 
 public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching {
-  private var feedLoader: FeedLoader?
-  private var imageLoader: FeedImageDataLoader?
+  public var refreshViewController: FeedRefreshViewController?
 
-  private var viewIsAppearing: ((FeedViewController) -> Void)?
+  private var viewAppearing: ((FeedViewController) -> Void)?
   
-  private var tableModel = [FeedImage]()
-  private var tasks = [IndexPath: FeedImageDataLoaderTask]()
+  var tableModel = [FeedImageCellController]() {
+    didSet { tableView.reloadData() }
+  }
 
-
-  public convenience init(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) {
+  public convenience init(refreshViewController: FeedRefreshViewController) {
     self.init()
-    self.feedLoader = feedLoader
-    self.imageLoader = imageLoader
+    self.refreshViewController = refreshViewController
   }
 
   public override func viewDidLoad() {
     super.viewDidLoad()
 
-    refreshControl = UIRefreshControl()
-    refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+    refreshControl = refreshViewController?.view
     tableView.prefetchDataSource = self
     
-    viewIsAppearing = { vc in
-      vc.viewIsAppearing = nil
-      vc.load()
+    viewAppearing = { vc in
+      vc.viewAppearing = nil
+      vc.refreshViewController?.refresh()
     }
   }
   
   public override func viewIsAppearing(_ animated: Bool) {
     super.viewIsAppearing(animated)
     
-    viewIsAppearing?(self)
+    viewAppearing?(self)
   }
 
-  @objc private func load() {
-    refreshControl?.beginRefreshing()
-    feedLoader?.load { [weak self] result in
-      if let feed = try? result.get() {
-        self?.tableModel = feed
-        self?.tableView.reloadData()
-        self?.refreshControl?.endRefreshing()
-
-      }
-      self?.refreshControl?.endRefreshing()
-
-    }
-  }
   
   public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tableModel.count
   }
 
   public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cellModel = tableModel[indexPath.row]
-    let cell = FeedImageCell()
-    cell.locationContainer.isHidden = (cellModel.location == nil)
-    cell.locationLabel.text = cellModel.location
-    cell.descriptionLabel.text = cellModel.description
-    cell.feedImageView.image = nil
-    cell.feedImageRetryButton.isHidden = true
-
-    cell.feedImageContainer.isShimmering = true
-    let loadImage = { [weak self, weak cell] in
-      guard let self = self else { return }
-
-      self.tasks[indexPath] = self.imageLoader?.loadImageData(from: cellModel.url) { [weak cell] result in
-        let data = try? result.get()
-        let image = data.map(UIImage.init) ?? nil
-        cell?.feedImageView.image = image
-        cell?.feedImageRetryButton.isHidden = (image != nil)
-        cell?.feedImageContainer.isShimmering = false
-      }
-    }
-    
-    cell.onRetry = loadImage
-    loadImage()
-
-    return cell
+    return cellController(forRowAt: indexPath).view()
   }
   
   public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -106,13 +66,15 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
   }
   
   private func startTask(forRowAt indexPath: IndexPath) {
-    let cellModel = tableModel[indexPath.row]
-    tasks[indexPath] = imageLoader?.loadImageData(from: cellModel.url) { _ in }
+    cellController(forRowAt: indexPath).preload()
   }
   
   private func cancelTask(forRowAt indexPath: IndexPath) {
-    tasks[indexPath]?.cancel()
-    tasks[indexPath] = nil
+    cellController(forRowAt: indexPath).cancel()
+  }
+  
+  private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
+    return tableModel[indexPath.row]
   }
 
 }
