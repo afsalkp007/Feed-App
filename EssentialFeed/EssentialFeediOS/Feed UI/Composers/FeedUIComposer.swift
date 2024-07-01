@@ -9,9 +9,10 @@ import EssentialFeed
 
 public final class FeedUIComposer {
   public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-    let refreshViewController = FeedRefreshViewController(feedLoader: feedLoader)
+    let viewModel = FeedViewModel(feedLoader: feedLoader)
+    let refreshViewController = FeedRefreshViewController(viewModel: viewModel)
     let feedController = FeedViewController(refreshViewController: refreshViewController)
-    refreshViewController.onRefresh = adapt(feedController, imageLoader: imageLoader)
+    viewModel.onLoadFeed = adapt(feedController, imageLoader: imageLoader)
     return feedController
   }
   
