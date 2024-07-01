@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F401ADAC2C32A26B000B1D73 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401ADAB2C32A26B000B1D73 /* FeedViewModel.swift */; };
+		F401ADAE2C32A669000B1D73 /* FeedImageCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F401ADAD2C32A669000B1D73 /* FeedImageCellViewModel.swift */; };
 		F430A24E2C2856F2001BD3EC /* FeedCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F430A24D2C2856F2001BD3EC /* FeedCachePolicy.swift */; };
 		F430A2542C29A115001BD3EC /* CodableFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F430A2532C29A115001BD3EC /* CodableFeedStore.swift */; };
 		F430A2562C29B833001BD3EC /* FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = F430A2552C29B833001BD3EC /* FeedStoreSpecs.swift */; };
@@ -128,6 +129,7 @@
 
 /* Begin PBXFileReference section */
 		F401ADAB2C32A26B000B1D73 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		F401ADAD2C32A669000B1D73 /* FeedImageCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCellViewModel.swift; sourceTree = "<group>"; };
 		F430A24D2C2856F2001BD3EC /* FeedCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCachePolicy.swift; sourceTree = "<group>"; };
 		F430A2512C296B81001BD3EC /* CodableFeedStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStoreTests.swift; sourceTree = "<group>"; };
 		F430A2532C29A115001BD3EC /* CodableFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStore.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				F401ADAB2C32A26B000B1D73 /* FeedViewModel.swift */,
+				F401ADAD2C32A669000B1D73 /* FeedImageCellViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -826,6 +829,7 @@
 			files = (
 				F474B1522C2EC90F0024AAF7 /* UIView+Shimmering.swift in Sources */,
 				F45397C52C31670E00C5FB6A /* FeedUIComposer.swift in Sources */,
+				F401ADAE2C32A669000B1D73 /* FeedImageCellViewModel.swift in Sources */,
 				F45397C22C31619800C5FB6A /* FeedRefreshViewController.swift in Sources */,
 				F474B14A2C2D9F060024AAF7 /* FeedViewController.swift in Sources */,
 				F474B1502C2EC55F0024AAF7 /* FeedImageCell.swift in Sources */,

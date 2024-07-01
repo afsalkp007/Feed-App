@@ -14,20 +14,21 @@ public final class FeedRefreshViewController: NSObject {
     self.viewModel = viewModel
   }
   
-  public lazy var view: UIRefreshControl = {
-    let refreshControl = UIRefreshControl()
-    refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-    return refreshControl
-  }()
+  public lazy var view = binded(UIRefreshControl())
   
   @objc func refresh() {
-    viewModel.onChange = { [weak self] viewModel in
-      if viewModel.isLoading {
+    viewModel.loadFeed()
+  }
+  
+  private func binded(_ view: UIRefreshControl) -> UIRefreshControl {
+    viewModel.onLoadingSateChange = { [weak self] isLoading in
+      if isLoading {
         self?.view.beginRefreshing()
       } else {
         self?.view.endRefreshing()
       }
     }
-    viewModel.loadFeed()
+    view.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    return view
   }
 }
