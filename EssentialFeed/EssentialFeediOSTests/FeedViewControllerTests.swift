@@ -237,6 +237,49 @@ final class FeedViewControllerTests: XCTestCase {
     sut.simulateFeedImageViewNotNearVisible(at: 1)
     XCTAssertEqual(loader.cancelledImageURLs, [image0.url, image1.url], "Expected second cancelled image URL request once second image is not near visible anymore")
   }
+  
+  func test_feedImageView_doesNotRenderLoadedImageWhenNotVisibleAnymore() {
+    let (sut, loader) = makeSUT()
+    sut.simulateAppearance()
+    loader.completeFeedLoading(with: [makeImage()])
+
+    let view = sut.simulateFeedImageViewNotVisible(at: 0)
+    loader.completeImageLoading(with: anyImageData())
+
+    XCTAssertNil(view?.renderedImage, "Expected no rendered image when an image load finishes after the view is not visible anymore")
+  }
+  
+  func test_feedImageView_doesNotShowDataFromPreviousRequestWhenCellIsReused() throws {
+    let (sut, loader) = makeSUT()
+
+    sut.simulateAppearance()
+    loader.completeFeedLoading(with: [makeImage(), makeImage()])
+
+    let view0 = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 0))
+    view0.prepareForReuse()
+
+    let imageData0 = UIImage.make(withColor: .red).pngData()!
+    loader.completeImageLoading(with: imageData0, at: 0)
+
+    XCTAssertEqual(view0.renderedImage, .none, "Expected no image state change for reused view once image loading completes successfully")
+  }
+  
+  func test_feedImageView_showsDataForNewViewRequestAfterPreviousViewIsReused() throws {
+    let (sut, loader) = makeSUT()
+
+    sut.simulateAppearance()
+    loader.completeFeedLoading(with: [makeImage(), makeImage()])
+
+    let previousView = try XCTUnwrap(sut.simulateFeedImageViewNotVisible(at: 0))
+
+    let newView = try XCTUnwrap(sut.simulateFeedImageViewVisible(at: 0))
+    previousView.prepareForReuse()
+
+    let imageData = UIImage.make(withColor: .red).pngData()!
+    loader.completeImageLoading(with: imageData, at: 1)
+
+    XCTAssertEqual(newView.renderedImage, imageData)
+  }
 
   // MARK: - Helpers
   
@@ -246,6 +289,10 @@ final class FeedViewControllerTests: XCTestCase {
     trackForMemoryLeaks(loader, file: file, line: line)
     trackForMemoryLeaks(sut, file: file, line: line)
     return (sut, loader)
+  }
+  
+  private func anyImageData() -> Data {
+    return UIImage.make(withColor: .red).pngData()!
   }
 }
 
