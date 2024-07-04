@@ -10,19 +10,30 @@ import EssentialFeed
 
 public final class FeedUIComposer {
   public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-    let adapter = FeedPresentationAdapter(feedLoader: feedLoader)
+    let feedPresentationAdapter = FeedPresentationAdapter(feedLoader: feedLoader)
     
-    let bundle = Bundle(for: FeedViewController.self)
-    let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
-    let feedController = storyboard.instantiateInitialViewController { coder in
-      return FeedViewController(coder: coder, delegate: adapter)
-    }
+    let feedController = FeedViewController.makeWith(
+      delegate: feedPresentationAdapter,
+      title: FeedPresenter.title
+    )
     
-    adapter.presenter = FeedPresenter(
+    feedPresentationAdapter.presenter = FeedPresenter(
       loadinView: WeakRefVirtualProxy(feedController),
       feedView: FeedViewAdapter(feedController: feedController, imageLoader: imageLoader)
     )
     
+    return feedController
+  }
+}
+
+private extension FeedViewController {
+  static func makeWith(delegate: FeedPresentationAdapter, title: String) -> FeedViewController {
+    let bundle = Bundle(for: FeedViewController.self)
+    let storyboard = UIStoryboard(name: "Feed", bundle: bundle)
+    let feedController = storyboard.instantiateInitialViewController { coder in
+      return FeedViewController(coder: coder, delegate: delegate)
+    }
+    feedController?.title = title
     return feedController!
   }
 }
