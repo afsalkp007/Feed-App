@@ -1,29 +1,28 @@
 //
 //  FeedImagePresenter.swift
-//  EssentialFeediOS
+//  EssentialFeed
 //
-//  Created by Afsal on 01/07/2024.
+//  Created by Afsal on 06/07/2024.
 //
 
 import Foundation
-import EssentialFeed
 
-protocol FeedImageView {
+public protocol FeedImageView {
   associatedtype Image
   
   func display(_ viewModel: FeedImageViewModel<Image>)
 }
 
-final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == Image {
+public class FeedImagePresenter<View: FeedImageView, Image> where View.Image == Image {
   private let view: View
   private let imageTransformer: (Data) -> Image?
   
-  init(view: View, imageTransformer: @escaping (Data) -> Image?) {
+  public init(view: View, imageTransformer: @escaping (Data) -> Image?) {
     self.view = view
     self.imageTransformer = imageTransformer
   }
   
-  func didStartImageLoading(for model: FeedImage) {
+  public func didStartImageLoading(for model: FeedImage) {
     view.display(
       FeedImageViewModel(
         description: model.description,
@@ -37,10 +36,8 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
   
   private struct ImageLoadingError: Error {}
   
-  func didFinishLoading(with data: Data, for model: FeedImage) {
-    guard let image = imageTransformer(data) else {
-      return didFinishLoading(with: ImageLoadingError(), for: model)
-    }
+  public func didFinishLoading(with data: Data, for model: FeedImage) {
+    guard let image = imageTransformer(data) else { return didFinishLoading(with: ImageLoadingError(), for: model) }
     
     view.display(
       FeedImageViewModel(
@@ -53,7 +50,7 @@ final class FeedImagePresenter<View: FeedImageView, Image> where View.Image == I
     )
   }
   
-  func didFinishLoading(with error: Error, for model: FeedImage) {
+  public func didFinishLoading(with error: Error, for model: FeedImage) {
     view.display(
       FeedImageViewModel(
         description: model.description,
