@@ -111,3 +111,17 @@ private class FakeUIRefreshControl: UIRefreshControl {
   }
 }
 
+extension FeedViewController {
+  var errorMessage: String? {
+    errorView.message
+  }
+  
+  func simulateErrorViewTap() {
+    errorView.button.simulateTap()
+  }
+  
+  var errorViewVisible: Bool {
+    errorView.isVisible
+  }
+}
+

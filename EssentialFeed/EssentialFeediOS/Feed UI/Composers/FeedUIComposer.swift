@@ -22,8 +22,8 @@ public final class FeedUIComposer {
       loadinView: WeakRefVirtualProxy(feedController),
       feedView: FeedViewAdapter(
         feedController: feedController,
-        imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)
-      )
+        imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader)),
+      errorView: WeakRefVirtualProxy(feedController)
     )
     
     return feedController

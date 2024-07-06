@@ -11,6 +11,40 @@ import EssentialFeediOS
 
 final class FeedUIIntegrationTests: XCTestCase {
   
+  func test_errorView_doesNotShowMessageOnLoad() {
+    let (sut, _) = makeSUT()
+
+    sut.simulateAppearance()
+    
+    XCTAssertNil(sut.errorMessage)
+  }
+  
+  func test_errorView_hideErrorOnButtonTap() {
+    let (sut, loader) = makeSUT()
+    sut.simulateAppearance()
+    XCTAssertNil(sut.errorMessage)
+    XCTAssertEqual(sut.errorViewVisible, false)
+    
+    loader.completeFeedLoadingWithError(at: 0)
+    XCTAssertEqual(sut.errorMessage, localized(key: "FEED_VIEW_CONNECTION_ERROR"))
+    XCTAssertEqual(sut.errorViewVisible, true)
+    
+    sut.simulateUserInitiatedFeedReload()
+    XCTAssertNil(sut.errorMessage)
+    XCTAssertEqual(sut.errorViewVisible, false)
+    
+    loader.completeFeedLoading(with:[makeImage()])
+    XCTAssertNil(sut.errorMessage)
+    XCTAssertEqual(sut.errorViewVisible, false)
+    
+    loader.completeFeedLoadingWithError(at: 1)
+    XCTAssertEqual(sut.errorMessage, localized(key: "FEED_VIEW_CONNECTION_ERROR"))
+    XCTAssertEqual(sut.errorViewVisible, true)
+
+    sut.simulateErrorViewTap()
+    XCTAssertEqual(sut.errorViewVisible, false)
+  }
+  
   func test_loadFeedActions_requestFeedFromLoader() {
     let (sut, loader) = makeSUT()
     XCTAssertEqual(loader.loadFeedCallCount, 0, "Expected no loading requests before view is loaded")
