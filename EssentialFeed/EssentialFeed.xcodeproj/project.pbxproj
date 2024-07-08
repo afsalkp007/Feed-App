@@ -381,9 +381,9 @@
 		F455FD772C047DF7005C2E2A /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
-				F4CDCD762C232C4F0047C37A /* Feed Cache */,
 				F455FD912C047F8C005C2E2A /* Feed Feature */,
 				F455FD942C05C2FE005C2E2A /* Feed API */,
+				F4CDCD762C232C4F0047C37A /* Feed Cache */,
 				F4F8D6CE2C39475500F13257 /* Feed Presentation */,
 			);
 			path = EssentialFeed;
@@ -405,6 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				F455FD8D2C047E07005C2E2A /* FeedImage.swift */,
+				F474B1642C2EE9DA0024AAF7 /* FeedImageDataLoader.swift */,
 				F455FD8F2C047EE0005C2E2A /* FeedLoader.swift */,
 			);
 			path = "Feed Feature";
@@ -485,7 +486,6 @@
 		F474B1302C2D71EE0024AAF7 /* EssentialFeediOS */ = {
 			isa = PBXGroup;
 			children = (
-				F474B16F2C2EEB980024AAF7 /* Feed Image Loader */,
 				F474B16E2C2EEB4C0024AAF7 /* Feed UI */,
 			);
 			path = EssentialFeediOS;
@@ -553,14 +553,6 @@
 				F474B15D2C2EE8810024AAF7 /* Views */,
 			);
 			path = "Feed UI";
-			sourceTree = "<group>";
-		};
-		F474B16F2C2EEB980024AAF7 /* Feed Image Loader */ = {
-			isa = PBXGroup;
-			children = (
-				F474B1642C2EE9DA0024AAF7 /* FeedImageDataLoader.swift */,
-			);
-			path = "Feed Image Loader";
 			sourceTree = "<group>";
 		};
 		F4CDCD762C232C4F0047C37A /* Feed Cache */ = {
