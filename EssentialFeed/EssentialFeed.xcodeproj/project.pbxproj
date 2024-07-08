@@ -96,6 +96,8 @@
 		F4F8D6E62C398D8100F13257 /* FeedImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D6E52C398D8100F13257 /* FeedImagePresenter.swift */; };
 		F4F8D6E82C398DCA00F13257 /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D6E72C398DCA00F13257 /* FeedImageViewModel.swift */; };
 		F4F8D71F2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D71E2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift */; };
+		F4F8D7222C3C0C9D00F13257 /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D7212C3C0C9D00F13257 /* HTTPClientSpy.swift */; };
+		F4F8D7242C3C0CE700F13257 /* RemoteFeedImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D7232C3C0CE700F13257 /* RemoteFeedImageDataLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +244,8 @@
 		F4F8D6E52C398D8100F13257 /* FeedImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImagePresenter.swift; sourceTree = "<group>"; };
 		F4F8D6E72C398DCA00F13257 /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
 		F4F8D71E2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoaderTests.swift; sourceTree = "<group>"; };
+		F4F8D7212C3C0C9D00F13257 /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
+		F4F8D7232C3C0CE700F13257 /* RemoteFeedImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -421,6 +425,7 @@
 				F455FDC82C086202005C2E2A /* HTTPClient.swift */,
 				F455FDD72C0C80D0005C2E2A /* URLSessionHTTPClient.swift */,
 				F4CDCD7B2C247F080047C37A /* RemoteFeedItem.swift */,
+				F4F8D7232C3C0CE700F13257 /* RemoteFeedImageDataLoader.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -428,6 +433,7 @@
 		F455FDCC2C0867AE005C2E2A /* Feed API */ = {
 			isa = PBXGroup;
 			children = (
+				F4F8D7202C3C0C9700F13257 /* Helpers */,
 				F455FD922C04A5AF005C2E2A /* LoadFeedFromRemoteUseCaseTests.swift */,
 				F455FDD02C0B13B8005C2E2A /* URLSessionHTTPClientTests.swift */,
 				F4F8D71E2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift */,
@@ -628,6 +634,14 @@
 				F4F8D6CF2C39476200F13257 /* Feed.strings */,
 			);
 			path = "Feed Presentation";
+			sourceTree = "<group>";
+		};
+		F4F8D7202C3C0C9700F13257 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F4F8D7212C3C0C9D00F13257 /* HTTPClientSpy.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -882,6 +896,7 @@
 				F4CDCD7C2C247F080047C37A /* RemoteFeedItem.swift in Sources */,
 				F430A24E2C2856F2001BD3EC /* FeedCachePolicy.swift in Sources */,
 				F455FD962C05C30B005C2E2A /* RemoteFeedLoader.swift in Sources */,
+				F4F8D7242C3C0CE700F13257 /* RemoteFeedImageDataLoader.swift in Sources */,
 				F430A26D2C2AB7DE001BD3EC /* CoreDataFeedStore.swift in Sources */,
 				F4CDCD7E2C2480520047C37A /* LocalFeedImage.swift in Sources */,
 				F4F8D6E62C398D8100F13257 /* FeedImagePresenter.swift in Sources */,
@@ -909,6 +924,7 @@
 				F4F8D6CD2C39470E00F13257 /* FeedPresenterTests+Localization.swift in Sources */,
 				F4F8D6E02C39683B00F13257 /* FeedImagePresenterTests.swift in Sources */,
 				F474B1002C2C72D00024AAF7 /* UserDefaultsFeedStoreTests.swift in Sources */,
+				F4F8D7222C3C0C9D00F13257 /* HTTPClientSpy.swift in Sources */,
 				F455FD932C04A5AF005C2E2A /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				F4A576F52C284CB7004ECEA2 /* ValidateCachedFeedUseCaseTests.swift in Sources */,
 				F455FDD12C0B13B8005C2E2A /* URLSessionHTTPClientTests.swift in Sources */,
