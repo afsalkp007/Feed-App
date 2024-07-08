@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct FeedImage: Equatable {
+public struct FeedImage: Hashable {
   public let id: UUID
   public let description: String?
   public let location: String?
@@ -18,9 +18,5 @@ public struct FeedImage: Equatable {
     self.description = description
     self.location = location
     self.url = url
-  }
-  
-  public var local: LocalFeedImage {
-    return LocalFeedImage(id: id, description: description, location: location, url: url)
   }
 }

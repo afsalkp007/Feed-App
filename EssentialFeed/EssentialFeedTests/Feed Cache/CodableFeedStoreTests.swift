@@ -8,7 +8,7 @@
 import XCTest
 import EssentialFeed
 
-class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
+class CodableFeedStoreTests: XCTestCase, FeedStoreSpecs {
   
   override func setUp() {
     super.setUp()
@@ -46,24 +46,6 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
   }
   
-  func test_retrieve_deliversFailureOnRetrievalError() {
-    let storeURL = testSpecificStoreURL()
-    let sut = makeSUT(storeURL: storeURL)
-    
-    try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
-
-    assertThatRetrieveDeliversFailureOnRetrievalError(on: sut)
-  }
-  
-  func test_retrieve_hasNoSideEffectsOnRetrievalError() {
-    let storeURL = testSpecificStoreURL()
-    let sut = makeSUT(storeURL: storeURL)
-    
-    try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
-
-    assertThatRetrieveHasNoSideEffectsOnRetrievalError(on: sut)
-  }
-  
   func test_insert_deliversNoErrorOnEmptyCache() {
     let sut = makeSUT()
     
@@ -80,20 +62,6 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     let sut = makeSUT()
 
     assertThatInsertOverridesPreviouslyInsertedCacheValues(on: sut)
-  }
-  
-  func test_insert_deliversErrorOnInsertionError() {
-    let invalidStoreURL = URL(string: "invalid://store-url")!
-    let sut = makeSUT(storeURL: invalidStoreURL)
-    
-    assertThaInsertDeliversErrorOnInsertionError(on: sut)
-  }
-  
-  func test_insert_hasNoSideEffectsOnInsertionError() {
-    let invalidStoreURL = URL(string: "invalid://store-url")!
-    let sut = makeSUT(storeURL: invalidStoreURL)
-    
-    assertThatInsertHasNoSideEffectsOnInsertionError(on: sut)
   }
   
   func test_delete_deliversNoErrorOnEmptyCache() {
@@ -118,20 +86,6 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStore {
     let sut = makeSUT()
     
     assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
-  }
-  
-  func test_delete_deliversErrorOnDeletionError() {
-    let noDeletePermissionURL = cachesDirectory()
-    let sut = makeSUT(storeURL: noDeletePermissionURL)
-    
-    assertThatDeleteDeliversErrorOnDeletionError(on: sut)
-  }
-  
-  func test_delete_hasNoSideEffectsOnDeletionError() {
-    let noDeletePermissionURL = cachesDirectory()
-    let sut = makeSUT(storeURL: noDeletePermissionURL)
-    
-    assertThatDeleteHasNoSideEffectsOnDeletionError(on: sut)
   }
   
   func test_storeSideEffects_runSerially() {

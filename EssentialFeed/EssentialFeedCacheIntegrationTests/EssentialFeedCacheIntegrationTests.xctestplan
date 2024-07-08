@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "4EAC86B6-237C-4ACE-8E4B-0E137F51536C",
+      "id" : "B2309AF1-3585-4DE3-BC82-F35FC04E335C",
       "name" : "Configuration 1",
       "options" : {
 
@@ -24,8 +24,8 @@
     {
       "target" : {
         "containerPath" : "container:EssentialFeed.xcodeproj",
-        "identifier" : "F455FDE22C0DB920005C2E2A",
-        "name" : "EssentialFeedAPIEndToEndTests"
+        "identifier" : "F4EC8C4B2C2C01AA000712B7",
+        "name" : "EssentialFeedCacheIntegrationTests"
       }
     }
   ],
