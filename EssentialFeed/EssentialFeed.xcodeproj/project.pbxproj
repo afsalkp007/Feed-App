@@ -95,6 +95,7 @@
 		F4F8D6E02C39683B00F13257 /* FeedImagePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D6DF2C39683B00F13257 /* FeedImagePresenterTests.swift */; };
 		F4F8D6E62C398D8100F13257 /* FeedImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D6E52C398D8100F13257 /* FeedImagePresenter.swift */; };
 		F4F8D6E82C398DCA00F13257 /* FeedImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D6E72C398DCA00F13257 /* FeedImageViewModel.swift */; };
+		F4F8D71F2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8D71E2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,6 +241,7 @@
 		F4F8D6DF2C39683B00F13257 /* FeedImagePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImagePresenterTests.swift; sourceTree = "<group>"; };
 		F4F8D6E52C398D8100F13257 /* FeedImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImagePresenter.swift; sourceTree = "<group>"; };
 		F4F8D6E72C398DCA00F13257 /* FeedImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageViewModel.swift; sourceTree = "<group>"; };
+		F4F8D71E2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteFeedImageDataLoaderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +430,7 @@
 			children = (
 				F455FD922C04A5AF005C2E2A /* LoadFeedFromRemoteUseCaseTests.swift */,
 				F455FDD02C0B13B8005C2E2A /* URLSessionHTTPClientTests.swift */,
+				F4F8D71E2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift */,
 			);
 			path = "Feed API";
 			sourceTree = "<group>";
@@ -915,6 +918,7 @@
 				F4638C3C2C170DF500252601 /* SharedTestHelpers.swift in Sources */,
 				F4A576F82C28507C004ECEA2 /* FeedCacheTestHelpers.swift in Sources */,
 				F4A576F12C281AB5004ECEA2 /* FeedStoreSpy.swift in Sources */,
+				F4F8D71F2C3BE4C300F13257 /* RemoteFeedImageDataLoaderTests.swift in Sources */,
 				F430A25E2C29BF70001BD3EC /* XCTestCase+FailableDeleteFeedStoreSpecs.swift in Sources */,
 				F430A25A2C29BE06001BD3EC /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift in Sources */,
 				F4638C392C170C9D00252601 /* FeedCacheUseCaseTests.swift in Sources */,
