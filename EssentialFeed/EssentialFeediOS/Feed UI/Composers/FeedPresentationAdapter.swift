@@ -23,7 +23,7 @@ final class FeedPresentationAdapter: FeedViewControllerDelegate {
       case let .success(feed):
         self?.presenter?.didFinishLoading(with: feed)
         
-      case let .failure(error):
+      case .failure:
         self?.presenter?.didFinishLoadingWithError()
       }
     }
