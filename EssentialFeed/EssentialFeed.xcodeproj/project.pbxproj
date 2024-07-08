@@ -191,8 +191,6 @@
 		F472EE6F2C368E430058F640 /* CI_iOS.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CI_iOS.xctestplan; sourceTree = "<group>"; };
 		F472EE702C368E430058F640 /* CI_macOS.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CI_macOS.xctestplan; sourceTree = "<group>"; };
 		F472EE762C36971E0058F640 /* FeedViewControllerTests+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Localization.swift"; sourceTree = "<group>"; };
-		F472EE792C3697FE0058F640 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = "pt-BR"; path = "pt-BR.lproj/README.md"; sourceTree = "<group>"; };
-		F472EE7B2C36981E0058F640 /* el */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = el; path = el.lproj/README.md; sourceTree = "<group>"; };
 		F472EE7D2C3698F40058F640 /* FeedLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLocalizationTests.swift; sourceTree = "<group>"; };
 		F472EE802C36A5BC0058F640 /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 		F472EE822C36A5F70058F640 /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
@@ -1031,8 +1029,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				F455FDF12C0DD938005C2E2A /* en */,
-				F472EE792C3697FE0058F640 /* pt-BR */,
-				F472EE7B2C36981E0058F640 /* el */,
 			);
 			name = README.md;
 			sourceTree = "<group>";
