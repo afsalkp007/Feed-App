@@ -20,6 +20,8 @@ extension FeedUIIntegrationTests {
     feed.enumerated().forEach { index, image in
       assertThat(sut, hasViewConfiguredFor: image, at: index, file: file, line: line)
     }
+    
+    executeRunLoopToCleanUpReferences()
   }
 
   func assertThat(_ sut: FeedViewController, hasViewConfiguredFor image: FeedImage, at index: Int, file: StaticString = #file, line: UInt = #line) {
@@ -39,5 +41,9 @@ extension FeedUIIntegrationTests {
 
   func makeImage(description: String? = nil, location: String? = nil, url: URL = URL(string: "http://any-url.com")!) -> FeedImage {
     return FeedImage(id: UUID(), description: description, location: location, url: url)
+  }
+  
+  private func executeRunLoopToCleanUpReferences() {
+      RunLoop.current.run(until: Date())
   }
 }
