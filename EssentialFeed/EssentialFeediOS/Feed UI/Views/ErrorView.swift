@@ -22,6 +22,7 @@ public final class ErrorView: UIView {
     
     alpha = 0
     button.setTitle(nil, for: .normal)
+    button.titleLabel?.textAlignment = .center
   }
   
   public var isVisible: Bool {
