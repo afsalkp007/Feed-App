@@ -88,6 +88,12 @@ extension Publisher where Output == [FeedImage] {
   }
 }
 
+extension FeedCache {
+  func saveIgnoringResult(_ feed: [FeedImage]) {
+    save(feed) { _ in }
+  }
+}
+
 extension Publisher {
   func fallback(to fallbackPublisher: @escaping () -> AnyPublisher<Output, Failure>) -> AnyPublisher<Output, Failure> {
     self.catch { _ in fallbackPublisher() }.eraseToAnyPublisher()
