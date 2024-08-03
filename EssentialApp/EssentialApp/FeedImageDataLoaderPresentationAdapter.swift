@@ -10,7 +10,7 @@ import Foundation
 import EssentialFeed
 import EssentialFeediOS
 
-public final class FeedImagePresentationAdapter<View: FeedImageView, Image>: FeedImageCellControllerDelegate where View.Image == Image {  private let model: FeedImage
+public final class FeedImageDataLoaderPresentationAdapter<View: FeedImageView, Image>: FeedImageCellControllerDelegate where View.Image == Image {  private let model: FeedImage
   private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
   var cancellable: AnyCancellable?
   
@@ -26,7 +26,10 @@ public final class FeedImagePresentationAdapter<View: FeedImageView, Image>: Fee
     
     let model = self.model
     
-    cancellable = imageLoader(model.url).sink(receiveCompletion: { [weak self] completion in
+    cancellable = imageLoader(model.url)
+      .dispatchOnMainQueue()
+      .sink(
+        receiveCompletion: { [weak self] completion in
       switch completion {
       case .finished: break
         

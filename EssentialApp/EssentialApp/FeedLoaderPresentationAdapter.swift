@@ -9,7 +9,7 @@ import Combine
 import EssentialFeed
 import EssentialFeediOS
 
-final class FeedPresentationAdapter: FeedViewControllerDelegate {
+final class FeedLoaderPresentationAdapter: FeedViewControllerDelegate {
   private let feedLoader: () -> FeedLoader.Publisher
   var presenter: FeedPresenter?
   private var cancellable: Cancellable?
@@ -21,7 +21,10 @@ final class FeedPresentationAdapter: FeedViewControllerDelegate {
   func didRequestsData() {
     presenter?.didStartLoading()
     
-    cancellable = feedLoader().sink(receiveCompletion: { [weak self] completion in
+    cancellable = feedLoader()
+      .dispatchOnMainQueue()
+      .sink(
+        receiveCompletion: { [weak self] completion in
       switch completion {
       case .finished: break
         
