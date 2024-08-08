@@ -9,26 +9,48 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 
-final class FeedViewAdapter: FeedView {
-  weak var feedController: FeedViewController?
+final class FeedViewAdapter: ResourceView {
+  private weak var controller: FeedViewController?
   private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
   
   init(feedController: FeedViewController?, imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
-    self.feedController = feedController
+    self.controller = feedController
     self.imageLoader = imageLoader
   }
   
   func display(_ viewModel: FeedViewModel) {
-    feedController?.display(viewModel.feed.map { model in
+    controller?.display(viewModel.feed.map { model in
+      typealias ImagePresentationAdapter = LoadResourcePresentationAdapter<Data, WeakRefVirtualProxy<FeedImageCellController>>
       
-      let adapter = FeedImageDataLoaderPresentationAdapter<WeakRefVirtualProxy<FeedImageCellController>, UIImage>(model: model, imageLoader: imageLoader)
-      let view = FeedImageCellController(delegate: adapter)
-      adapter.presenter = FeedImagePresenter(
-        view: WeakRefVirtualProxy(view),
-        imageTransformer: UIImage.init
+      let adapter = ImagePresentationAdapter(loader: { [imageLoader] in
+        imageLoader(model.url)
+      })
+      
+      let view = FeedImageCellController(
+        viewModel: FeedImagePresenter.map(model),
+        delegate: adapter
       )
+      
+      adapter.presenter = LoadResourcePresenter(
+        resourceView: WeakRefVirtualProxy(view),
+        loadingView: WeakRefVirtualProxy(view),
+        errorView: WeakRefVirtualProxy(view),
+        mapper: UIImage.tryMap)
 
       return view
     })
+  }
+  
+}
+
+extension UIImage {
+  private struct InvalidImageData: Error {}
+
+  static func tryMap(_ data: Data) throws -> UIImage {
+    guard let image = UIImage(data: data) else {
+      throw InvalidImageData()
+    }
+    
+    return image
   }
 }
