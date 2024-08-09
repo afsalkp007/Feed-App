@@ -44,6 +44,7 @@ public final class ErrorView: UIView {
     }, completion: { [weak button] completed in
       if completed {
         button?.setTitle(nil, for: .normal)
+        button?.removeFromSuperview()
       }
     })
   }
