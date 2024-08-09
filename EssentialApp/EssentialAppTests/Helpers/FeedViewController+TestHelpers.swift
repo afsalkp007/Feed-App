@@ -10,7 +10,7 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 
-extension FeedViewController {
+extension ListViewController {
   func simulateUserInitiatedFeedReload() {
     refreshControl?.simulatePullToRefresh()
   }
@@ -72,7 +72,7 @@ extension FeedViewController {
   }
 }
 
-extension FeedViewController {
+extension ListViewController {
   func simulateAppearance() {
     if !isViewLoaded {
       loadViewIfNeeded()
@@ -118,7 +118,7 @@ private class FakeUIRefreshControl: UIRefreshControl {
   }
 }
 
-extension FeedViewController {
+extension ListViewController {
   var errorMessage: String? {
     errorView.message
   }

@@ -8,25 +8,22 @@
 import UIKit
 import EssentialFeed
 
-public protocol FeedViewControllerDelegate {
-  func didRequestsData()
+public protocol CellController {
+  func view(in tableView: UITableView) -> UITableViewCell
+  func preload()
+  func cancel()
 }
 
-public final class FeedViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
+public final class ListViewController: UITableViewController, UITableViewDataSourcePrefetching, ResourceLoadingView, ResourceErrorView {
   @IBOutlet public weak var errorView: ErrorView!
   
-  private var delegate: FeedViewControllerDelegate?
+  public var onRefresh: (() -> Void)?
 
-  private var viewAppearing: ((FeedViewController) -> Void)?
+  private var viewAppearing: ((ListViewController) -> Void)?
   
-  private var loadingControllers = [IndexPath: FeedImageCellController]()
-  private var tableModel = [FeedImageCellController]() {
+  private var loadingControllers = [IndexPath: CellController]()
+  private var tableModel = [CellController]() {
     didSet { tableView.reloadData() }
-  }
-  
-  public convenience init?(coder: NSCoder, delegate: FeedViewControllerDelegate) {
-    self.init(coder: coder)
-    self.delegate = delegate
   }
 
   public override func viewDidLoad() {
@@ -51,10 +48,10 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
   }
   
   @IBAction private func refresh() {
-    delegate?.didRequestsData()
+    onRefresh?()
   }
   
-  public func display(_ cellControllers: [FeedImageCellController]) {
+  public func display(_ cellControllers: [CellController]) {
     loadingControllers = [:]
     tableModel = cellControllers
   }
@@ -95,7 +92,7 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     cellController(forRowAt: indexPath).preload()
   }
   
-  private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
+  private func cellController(forRowAt indexPath: IndexPath) -> CellController {
     let controller = tableModel[indexPath.row]
     loadingControllers[indexPath] = controller
     return controller
