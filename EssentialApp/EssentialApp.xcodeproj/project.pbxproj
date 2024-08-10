@@ -19,7 +19,7 @@
 		F400584E2C57A4ED0059B6EA /* UIRefreshControl+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058422C57A4EC0059B6EA /* UIRefreshControl+TestHelpers.swift */; };
 		F400584F2C57A4ED0059B6EA /* FeedUIIntegrationTests+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058462C57A4ED0059B6EA /* FeedUIIntegrationTests+Assertions.swift */; };
 		F40058502C57A4ED0059B6EA /* UIControl+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058482C57A4ED0059B6EA /* UIControl+TestHelpers.swift */; };
-		F40058512C57A4ED0059B6EA /* FeedViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058432C57A4EC0059B6EA /* FeedViewController+TestHelpers.swift */; };
+		F40058512C57A4ED0059B6EA /* ListViewController+TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058432C57A4EC0059B6EA /* ListViewController+TestHelpers.swift */; };
 		F40058532C57A82A0059B6EA /* FeedUIIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058522C57A82A0059B6EA /* FeedUIIntegrationTests.swift */; };
 		F40058552C57A9690059B6EA /* FeedAcceptanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40058542C57A9690059B6EA /* FeedAcceptanceTests.swift */; };
 		F41C84ED2C3E98BB00CAAC84 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41C84EC2C3E98BB00CAAC84 /* AppDelegate.swift */; };
@@ -75,7 +75,7 @@
 		F40058402C57A4EC0059B6EA /* UIImage+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+TestHelpers.swift"; sourceTree = "<group>"; };
 		F40058412C57A4EC0059B6EA /* UIButton+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+TestHelpers.swift"; sourceTree = "<group>"; };
 		F40058422C57A4EC0059B6EA /* UIRefreshControl+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+TestHelpers.swift"; sourceTree = "<group>"; };
-		F40058432C57A4EC0059B6EA /* FeedViewController+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewController+TestHelpers.swift"; sourceTree = "<group>"; };
+		F40058432C57A4EC0059B6EA /* ListViewController+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListViewController+TestHelpers.swift"; sourceTree = "<group>"; };
 		F40058442C57A4EC0059B6EA /* FeedImageCell+TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedImageCell+TestHelpers.swift"; sourceTree = "<group>"; };
 		F40058452C57A4EC0059B6EA /* FeedViewControllerTests+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedViewControllerTests+Localization.swift"; sourceTree = "<group>"; };
 		F40058462C57A4ED0059B6EA /* FeedUIIntegrationTests+Assertions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FeedUIIntegrationTests+Assertions.swift"; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 				F40058422C57A4EC0059B6EA /* UIRefreshControl+TestHelpers.swift */,
 				F40058412C57A4EC0059B6EA /* UIButton+TestHelpers.swift */,
 				F40058482C57A4ED0059B6EA /* UIControl+TestHelpers.swift */,
-				F40058432C57A4EC0059B6EA /* FeedViewController+TestHelpers.swift */,
+				F40058432C57A4EC0059B6EA /* ListViewController+TestHelpers.swift */,
 				F40058442C57A4EC0059B6EA /* FeedImageCell+TestHelpers.swift */,
 				F40058472C57A4ED0059B6EA /* FeedViewControllerTests+LoaderSpy.swift */,
 				F40058462C57A4ED0059B6EA /* FeedUIIntegrationTests+Assertions.swift */,
@@ -326,7 +326,7 @@
 				F400584F2C57A4ED0059B6EA /* FeedUIIntegrationTests+Assertions.swift in Sources */,
 				F44344712C4531CB00FD8CCE /* XCTestCase+FeedImageDataLoader.swift in Sources */,
 				F400584D2C57A4ED0059B6EA /* FeedViewControllerTests+LoaderSpy.swift in Sources */,
-				F40058512C57A4ED0059B6EA /* FeedViewController+TestHelpers.swift in Sources */,
+				F40058512C57A4ED0059B6EA /* ListViewController+TestHelpers.swift in Sources */,
 				F443446F2C45316100FD8CCE /* FeedImageDataLoaderSpy.swift in Sources */,
 				F40058332C57A47C0059B6EA /* SceneDelegateTests.swift in Sources */,
 				F4FB9A162C57C33C0055B230 /* InMemoryFeedStore.swift in Sources */,
