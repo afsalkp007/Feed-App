@@ -13,7 +13,7 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
   
   public var onRefresh: (() -> Void)?
   
-  private var viewAppearing: ((ListViewController) -> Void)?
+  private var onViewDidAppear: ((ListViewController) -> Void)?
   
   private lazy var dataSource: UITableViewDiffableDataSource<Int, CellController> = {
     .init(tableView: tableView) { tableView, index, controller in
@@ -25,22 +25,23 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     super.viewDidLoad()
     
     configureTableView()
-    viewAppearing = { vc in
-      vc.viewAppearing = nil
+    configureTraitCollectionObservers()
+    onViewDidAppear = { vc in
+      vc.onViewDidAppear = nil
       vc.refresh()
     }
+  }
+  
+  public override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    onViewDidAppear?(self)
   }
   
   public override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
 
     tableView.sizeTableHeaderToFit()
-  }
-  
-  public override func viewIsAppearing(_ animated: Bool) {
-    super.viewIsAppearing(animated)
-    
-    viewAppearing?(self)
   }
   
   private func configureTableView() {
@@ -55,20 +56,23 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
     }
   }
   
+  private func configureTraitCollectionObservers() {
+    registerForTraitChanges(
+      [UITraitPreferredContentSizeCategory.self]
+    ) { (self: Self, previous: UITraitCollection) in
+      self.tableView.reloadData()
+    }
+  }
+  
   @IBAction private func refresh() {
     onRefresh?()
   }
-  
-  public override func traitCollectionDidChange(_ previous: UITraitCollection?) {
-      if previous?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-          tableView.reloadData()
-      }
-  }
-  
+    
   public func display(_ cellControllers: [CellController]) {
     var snapshot = NSDiffableDataSourceSnapshot<Int, CellController>()
     snapshot.appendSections([0])
     snapshot.appendItems(cellControllers, toSection: 0)
+    
     dataSource.applySnapshotUsingReloadData(snapshot)
   }
   
@@ -78,6 +82,11 @@ public final class ListViewController: UITableViewController, UITableViewDataSou
 
   public func display(_ viewModel: ResourceLoadingViewModel) {
     refreshControl?.update(viewModel.isLoading)
+  }
+  
+  public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let dl = cellController(at: indexPath)?.delegate
+    dl?.tableView?(tableView, didSelectRowAt: indexPath)
   }
   
   public override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
