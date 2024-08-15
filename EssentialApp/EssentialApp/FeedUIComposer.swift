@@ -10,6 +10,11 @@ import Combine
 import EssentialFeed
 import EssentialFeediOS
 
+struct Paginated<Item> {
+  let items: [Item]
+  let loadMore: (() -> AnyPublisher<Paginated<Item>, Error>)?
+}
+
 public final class FeedUIComposer {
   private init() {}
   
