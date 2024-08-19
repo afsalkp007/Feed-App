@@ -40,6 +40,7 @@
 		F4586F142C5E3D970064DE13 /* CombineHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4586F132C5E3D970064DE13 /* CombineHelpers.swift */; };
 		F46CE59F2C64D9A2005E30A5 /* LoadResourcePresentationAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46CE59E2C64D9A2005E30A5 /* LoadResourcePresentationAdapter.swift */; };
 		F4AA8DD62C6B533B00837505 /* CommentsViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AA8DD52C6B533B00837505 /* CommentsViewAdapter.swift */; };
+		F4BB90312C734F26006389AE /* NullStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BB90302C734F26006389AE /* NullStore.swift */; };
 		F4FB9A142C57C30E0055B230 /* HTTPClientStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FB9A132C57C30E0055B230 /* HTTPClientStub.swift */; };
 		F4FB9A162C57C33C0055B230 /* InMemoryFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4FB9A152C57C33C0055B230 /* InMemoryFeedStore.swift */; };
 /* End PBXBuildFile section */
@@ -105,6 +106,7 @@
 		F4586F132C5E3D970064DE13 /* CombineHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineHelpers.swift; sourceTree = "<group>"; };
 		F46CE59E2C64D9A2005E30A5 /* LoadResourcePresentationAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadResourcePresentationAdapter.swift; sourceTree = "<group>"; };
 		F4AA8DD52C6B533B00837505 /* CommentsViewAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsViewAdapter.swift; sourceTree = "<group>"; };
+		F4BB90302C734F26006389AE /* NullStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NullStore.swift; sourceTree = "<group>"; };
 		F4FB9A132C57C30E0055B230 /* HTTPClientStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientStub.swift; sourceTree = "<group>"; };
 		F4FB9A152C57C33C0055B230 /* InMemoryFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryFeedStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,6 +155,7 @@
 			children = (
 				F41C84EC2C3E98BB00CAAC84 /* AppDelegate.swift */,
 				F41C84EE2C3E98BB00CAAC84 /* SceneDelegate.swift */,
+				F4BB90302C734F26006389AE /* NullStore.swift */,
 				F4586F132C5E3D970064DE13 /* CombineHelpers.swift */,
 				F40058382C57A4CB0059B6EA /* FeedUIComposer.swift */,
 				F4393C072C6A7B8400CAAD08 /* CommentsUIComposer.swift */,
@@ -315,6 +318,7 @@
 			files = (
 				F41C84ED2C3E98BB00CAAC84 /* AppDelegate.swift in Sources */,
 				F46CE59F2C64D9A2005E30A5 /* LoadResourcePresentationAdapter.swift in Sources */,
+				F4BB90312C734F26006389AE /* NullStore.swift in Sources */,
 				F41C84EF2C3E98BB00CAAC84 /* SceneDelegate.swift in Sources */,
 				F4AA8DD62C6B533B00837505 /* CommentsViewAdapter.swift in Sources */,
 				F400583D2C57A4CB0059B6EA /* FeedViewAdapter.swift in Sources */,
