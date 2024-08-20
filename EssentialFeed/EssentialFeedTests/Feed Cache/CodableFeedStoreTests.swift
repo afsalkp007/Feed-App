@@ -79,7 +79,7 @@ class CodableFeedStoreTests: XCTestCase, FeedStoreSpecs {
   func test_delete_deliversNoErrorOnNonEmptyCache() {
     let sut = makeSUT()
     
-    asssertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
+    assertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
   }
   
   func test_delete_emptiesPreviouslyInsertedCache() {
@@ -88,12 +88,6 @@ class CodableFeedStoreTests: XCTestCase, FeedStoreSpecs {
     assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
   }
   
-  func test_storeSideEffects_runSerially() {
-    let sut = makeSUT()
-    
-    assertThatStoreSideEffectsRunSerially(on: sut)
-  }
-
   // MARK: - Helpers
   
   private func makeSUT(storeURL: URL? = nil, file: StaticString = #filePath, line: UInt = #line) -> FeedStore {

@@ -38,33 +38,30 @@ public final class UserDefaultsFeedStore: FeedStore {
     }
   }
   
-  public func deleteCachedFeed(_ completion: @escaping DeletionCompletion) {
+  public func deleteCachedFeed() throws {
     defaults.removeObject(forKey: "Cache")
-    completion(.success(()))
   }
   
-  public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
+  public func insert(_ feed: [LocalFeedImage], timestamp: Date) throws {
     do {
       let encoder = JSONEncoder()
       let encoded = try encoder.encode(Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp))
       defaults.setValue(encoded, forKey: "Cache")
-      
-      completion(.success(()))
     } catch {
-      completion(.failure(error))
+      throw error
     }
   }
   
-  public func retrieve(completion: @escaping RetrievalCompletion) {
+  public func retrieve() throws -> CachedFeed? {
     let decoder = JSONDecoder()
     do {
       guard let data = defaults.value(forKey: "Cache") as? Data else {
-        return completion(.success(.none))
+        return .none
       }
       let cache = try decoder.decode(Cache.self, from: data)
-      completion(.success(CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp)))
+      return CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp)
     } catch {
-      completion(.failure(error))
+      throw error
     }
   }
 }

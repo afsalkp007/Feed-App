@@ -70,7 +70,7 @@ extension FeedStoreSpecs where Self: XCTestCase {
     expect(sut, toRetrieve: .success(.none), file: file, line: line)
   }
   
-  func asssertThatDeleteDeliversNoErrorOnNonEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
+  func assertThatDeleteDeliversNoErrorOnNonEmptyCache(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
     insert((uniqueImageFeed().local, Date()), to: sut)
     
     let deletionError = deleteCache(from: sut)
@@ -85,82 +85,46 @@ extension FeedStoreSpecs where Self: XCTestCase {
     
     expect(sut, toRetrieve: .success(.none), file: file, line: line)
   }
-  
-  func assertThatStoreSideEffectsRunSerially(on sut: FeedStore, file: StaticString = #filePath, line: UInt = #line) {
-    var completeOperationsInOrder = [XCTestExpectation]()
     
-    let op1 = expectation(description: "Operation 1")
-    sut.insert(uniqueImageFeed().local, timestamp: Date()) { _ in
-      completeOperationsInOrder.append(op1)
-      op1.fulfill()
-    }
-    
-    let op2 = expectation(description: "Operation 2")
-    sut.deleteCachedFeed { _ in
-      completeOperationsInOrder.append(op2)
-      op2.fulfill()
-    }
-    
-    let op3 = expectation(description: "Operation 3")
-    sut.insert(uniqueImageFeed().local, timestamp: Date()) { _ in
-      completeOperationsInOrder.append(op3)
-      op3.fulfill()
-    }
-
-    waitForExpectations(timeout: 5.0)
-    
-    XCTAssertEqual(completeOperationsInOrder, [op1, op2, op3], "Expected side-effects to run serially but operations finished in the wrong order", file: file, line: line)
-  }
-  
   @discardableResult
   func deleteCache(from sut: FeedStore) -> Error? {
-    let exp = expectation(description: "Wait for deletion completion")
-    var deletionError: Error?
-    sut.deleteCachedFeed { result in
-      if case let .failure(error) = result { deletionError = error }
-      exp.fulfill()
+    do {
+      try sut.deleteCachedFeed()
+      return .none
+    } catch {
+      return error
     }
-    wait(for: [exp], timeout: 1.0)
-    return deletionError
   }
   
   @discardableResult
   func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
-    let exp = expectation(description: "Wait for retrieval completion")
-    var insertionError: Error?
-    sut.insert(cache.feed, timestamp: cache.timestamp) { result in
-      if case let .failure(error) = result { insertionError = error }
-      exp.fulfill()
+    do {
+      try sut.insert(cache.feed, timestamp: cache.timestamp)
+      return .none
+    } catch {
+      return error
     }
-    wait(for: [exp], timeout: 1.0)
-    return insertionError
   }
   
-  func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: FeedStore.RetrievalResult, file: StaticString = #filePath, line: UInt = #line) {
+  func expect(_ sut: FeedStore, toRetrieveTwice expectedResult: Result<CachedFeed?, Error>, file: StaticString = #filePath, line: UInt = #line) {
     expect(sut, toRetrieve: expectedResult, file: file, line: line)
     expect(sut, toRetrieve: expectedResult, file: file, line: line)
   }
   
-  func expect(_ sut: FeedStore, toRetrieve expectedResult: FeedStore.RetrievalResult, file: StaticString = #filePath, line: UInt = #line) {
-    let exp = expectation(description: "Wait for retrieval completion")
+  func expect(_ sut: FeedStore, toRetrieve expectedResult: Result<CachedFeed?, Error>, file: StaticString = #filePath, line: UInt = #line) {
+    let retrievedResult = Result { try sut.retrieve() }
     
-    sut.retrieve { retrievedResult in
-      switch (retrievedResult, expectedResult) {
-      case (.success(.none), .success(.none)),
-        (.failure, .failure):
-        break
-        
-      case let (.success(expectedCache), .success(retrievedCache)):
-        XCTAssertEqual(expectedCache?.feed, retrievedCache?.feed, file: file, line: line)
-        XCTAssertEqual(expectedCache?.timestamp, retrievedCache?.timestamp, file: file, line: line)
-        
-      default:
-        XCTFail("Expected to retrieve \(expectedResult), got \(retrievedResult) instead.", file: file, line: line)
-      }
+    switch (retrievedResult, expectedResult) {
+    case (.success(.none), .success(.none)),
+      (.failure, .failure):
+      break
       
-      exp.fulfill()
+    case let (.success(expectedCache), .success(retrievedCache)):
+      XCTAssertEqual(expectedCache?.feed, retrievedCache?.feed, file: file, line: line)
+      XCTAssertEqual(expectedCache?.timestamp, retrievedCache?.timestamp, file: file, line: line)
+      
+    default:
+      XCTFail("Expected to retrieve \(expectedResult), got \(retrievedResult) instead.", file: file, line: line)
     }
-    
-    wait(for: [exp], timeout: 1.0)
   }
 }
