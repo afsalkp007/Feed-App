@@ -14,7 +14,7 @@ public struct ResourceErrorViewModel {
     return ResourceErrorViewModel(message: .none)
   }
   
-  static func error(_ message: String?) -> ResourceErrorViewModel {
+  public static func error(_ message: String?) -> ResourceErrorViewModel {
     return ResourceErrorViewModel(message: message)
   }
 }

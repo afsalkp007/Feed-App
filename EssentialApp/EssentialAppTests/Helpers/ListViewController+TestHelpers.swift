@@ -1,5 +1,5 @@
 //
-//  FeedViewController+TestHelpers.swift
+//  ListViewController+TestHelpers.swift
 //  EssentialFeediOSTests
 //
 //  Created by Afsal on 28/06/2024.
@@ -10,7 +10,7 @@ import UIKit
 import EssentialFeed
 import EssentialFeediOS
 
-extension FeedViewController {
+extension ListViewController {
   func simulateUserInitiatedFeedReload() {
     refreshControl?.simulatePullToRefresh()
   }
@@ -18,6 +18,17 @@ extension FeedViewController {
   @discardableResult
   func simulateFeedImageViewVisible(at index: Int) -> FeedImageCell? {
     return feedImageView(at: index) as? FeedImageCell
+  }
+
+  @discardableResult
+  func simulateFeedImageBecomingVisibleAgain(at row: Int) -> FeedImageCell? {
+    let view = simulateFeedImageViewNotVisible(at: row)
+
+    let delegate = tableView.delegate
+    let index = IndexPath(row: row, section: feedImagesSection)
+    delegate?.tableView?(tableView, willDisplay: view!, forRowAt: index)
+
+    return view
   }
 
   @discardableResult
@@ -54,7 +65,8 @@ extension FeedViewController {
   }
   
   func numberOfRenderedFeedImageViews() -> Int {
-    return tableView.numberOfRows(inSection: feedImagesSection)
+    tableView.numberOfSections == 0 ? 0 : 
+    tableView.numberOfRows(inSection: feedImagesSection)
   }
 
   func feedImageView(at row: Int) -> UITableViewCell? {
@@ -72,7 +84,7 @@ extension FeedViewController {
   }
 }
 
-extension FeedViewController {
+extension ListViewController {
   func simulateAppearance() {
     if !isViewLoaded {
       loadViewIfNeeded()
@@ -118,13 +130,13 @@ private class FakeUIRefreshControl: UIRefreshControl {
   }
 }
 
-extension FeedViewController {
+extension ListViewController {
   var errorMessage: String? {
     errorView.message
   }
   
   func simulateErrorViewTap() {
-    errorView.button.simulateTap()
+    errorView.simulateTap()
   }
   
   var errorViewVisible: Bool {

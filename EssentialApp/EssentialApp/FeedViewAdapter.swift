@@ -10,10 +10,10 @@ import EssentialFeed
 import EssentialFeediOS
 
 final class FeedViewAdapter: ResourceView {
-  private weak var controller: FeedViewController?
+  private weak var controller: ListViewController?
   private let imageLoader: (URL) -> FeedImageDataLoader.Publisher
   
-  init(feedController: FeedViewController?, imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
+  init(feedController: ListViewController?, imageLoader: @escaping (URL) -> FeedImageDataLoader.Publisher) {
     self.controller = feedController
     self.imageLoader = imageLoader
   }
@@ -37,7 +37,7 @@ final class FeedViewAdapter: ResourceView {
         errorView: WeakRefVirtualProxy(view),
         mapper: UIImage.tryMap)
 
-      return view
+      return CellController(id: model, view)
     })
   }
   
