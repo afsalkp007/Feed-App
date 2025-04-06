@@ -29,7 +29,7 @@ public final class FeedUIComposer {
     
     presentationAdapter.presenter = LoadResourcePresenter(
       resourceView: FeedViewAdapter(
-        feedController: feedController,
+        controller: feedController,
         imageLoader: imageLoader,
         selection: selection),
       loadingView: WeakRefVirtualProxy(feedController),
