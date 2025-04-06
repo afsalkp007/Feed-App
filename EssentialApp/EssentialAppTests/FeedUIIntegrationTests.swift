@@ -12,6 +12,14 @@ import EssentialFeediOS
 
 final class FeedUIIntegrationTests: XCTestCase {
   
+  func test_feedView_hasTitle() {
+    let (sut, _) = makeSUT()
+    
+    sut.simulateAppearance()
+    
+    XCTAssertEqual(sut.title, feedTitle)
+  }
+  
   func test_errorView_doesNotShowMessageOnLoad() {
     let (sut, _) = makeSUT()
 
@@ -27,7 +35,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     XCTAssertEqual(sut.errorViewVisible, false)
     
     loader.completeFeedLoadingWithError(at: 0)
-    XCTAssertEqual(sut.errorMessage, localized(key: "FEED_VIEW_CONNECTION_ERROR"))
+    XCTAssertEqual(sut.errorMessage, loadError)
     XCTAssertEqual(sut.errorViewVisible, true)
     
     sut.simulateUserInitiatedFeedReload()
@@ -39,7 +47,7 @@ final class FeedUIIntegrationTests: XCTestCase {
     XCTAssertEqual(sut.errorViewVisible, false)
     
     loader.completeFeedLoadingWithError(at: 1)
-    XCTAssertEqual(sut.errorMessage, localized(key: "FEED_VIEW_CONNECTION_ERROR"))
+    XCTAssertEqual(sut.errorMessage, loadError)
     XCTAssertEqual(sut.errorViewVisible, true)
 
     sut.simulateErrorViewTap()
