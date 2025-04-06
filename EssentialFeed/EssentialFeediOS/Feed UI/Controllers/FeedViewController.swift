@@ -8,7 +8,7 @@
 import UIKit
 import EssentialFeed
 
-protocol FeedViewControllerDelegate {
+public protocol FeedViewControllerDelegate {
   func didRequestsData()
 }
 
@@ -19,11 +19,12 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
 
   private var viewAppearing: ((FeedViewController) -> Void)?
   
-  var tableModel = [FeedImageCellController]() {
+  private var loadingControllers = [IndexPath: FeedImageCellController]()
+  private var tableModel = [FeedImageCellController]() {
     didSet { tableView.reloadData() }
   }
   
-  convenience init?(coder: NSCoder, delegate: FeedViewControllerDelegate) {
+  public convenience init?(coder: NSCoder, delegate: FeedViewControllerDelegate) {
     self.init(coder: coder)
     self.delegate = delegate
   }
@@ -37,6 +38,12 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     }
   }
   
+  public override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+
+    tableView.sizeTableHeaderToFit()
+  }
+  
   public override func viewIsAppearing(_ animated: Bool) {
     super.viewIsAppearing(animated)
     
@@ -45,6 +52,11 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
   
   @IBAction private func refresh() {
     delegate?.didRequestsData()
+  }
+  
+  public func display(_ cellControllers: [FeedImageCellController]) {
+    loadingControllers = [:]
+    tableModel = cellControllers
   }
   
   public func display(_ viewModel: FeedErrorViewModel) {
@@ -83,11 +95,14 @@ public final class FeedViewController: UITableViewController, UITableViewDataSou
     cellController(forRowAt: indexPath).preload()
   }
   
-  private func cancelTask(forRowAt indexPath: IndexPath) {
-    cellController(forRowAt: indexPath).cancel()
+  private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
+    let controller = tableModel[indexPath.row]
+    loadingControllers[indexPath] = controller
+    return controller
   }
   
-  private func cellController(forRowAt indexPath: IndexPath) -> FeedImageCellController {
-    return tableModel[indexPath.row]
+  private func cancelTask(forRowAt indexPath: IndexPath) {
+    loadingControllers[indexPath]?.cancel()
+    loadingControllers[indexPath] = nil
   }
 }
